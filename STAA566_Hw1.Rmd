@@ -1,0 +1,54 @@
+---
+title: "STAA566_HW1"
+author: "Manda Abhinay Reddy"
+output: html_document
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(scales)
+data("txhousing")
+head(txhousing)
+```
+
+```{r}
+
+#removing null values 
+d1 <- txhousing %>% drop_na()
+
+plot1 <- ggplot(d1,aes(x=volume,y=sales,color = year))+geom_point()+geom_smooth(color = "red")+scale_x_continuous(labels = unit_format(unit = "M", scale = 1e-6))+theme_minimal()+ggtitle("Housing Sales Vs Volume")
+
+plot1
+
+```
+
+## save as pdf
+
+```{r save as pdf}
+pdf("plot.pdf", heigh=6, width=8)
+print(plot1)
+dev.off()
+```
+
+## Display figure in HTML
+
+```{r display}
+plot1
+```
+
